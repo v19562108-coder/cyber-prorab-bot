@@ -2,4 +2,4 @@ pyTelegramBotAPI
 openai
 python-dotenv
 requests
-flask   
+flask 
