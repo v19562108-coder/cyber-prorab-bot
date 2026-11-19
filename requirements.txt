@@ -1,4 +1,5 @@
-   pyTelegramBotAPI
-   openai
-   python-dotenv
-   requests
+pyTelegramBotAPI
+openai
+python-dotenv
+requests
+flask   
