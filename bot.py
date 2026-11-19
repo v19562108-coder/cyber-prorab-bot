@@ -2,8 +2,10 @@ import os
 import base64
 import random
 import string
+import threading
 import requests
 import telebot
+from flask import Flask
 from openai import OpenAI
 from dotenv import load_dotenv
 
@@ -14,7 +16,7 @@ VERCEL_TOKEN = os.getenv("VERCEL_TOKEN")
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
-# 2. Инициализируем бота и AI (теперь Groq в облаке!)
+# 2. Инициализируем бота и AI (Groq в облаке)
 bot = telebot.TeleBot(BOT_TOKEN)
 client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=GROQ_API_KEY)
 
@@ -46,12 +48,9 @@ def send_welcome(message):
 def handle_message(message):
     user_request = message.text
     chat_id = message.chat.id
-    
-    # Отправляем сообщение, что работа началась
-    processing_msg = bot.send_message(chat_id, "⏳ Думаю, пишу код, не будь как НПС... Подожди пару секунд! 🛠️")
+    processing_msg = bot.send_message(chat_id, "⏳ Думаю, пишу код... 🛠️")
     
     try:
-        # 1. Генерируем код через Groq (облачный мозг 32b)
         response = client.chat.completions.create(
             model="qwen2.5-coder-32b-instruct",
             messages=[
@@ -62,7 +61,6 @@ def handle_message(message):
         )
         ai_response = response.choices[0].message.content
         
-        # Извлекаем HTML
         if "```html" in ai_response:
             html_code = ai_response.split("```html")[1].split("```")[0].strip()
         else:
@@ -70,15 +68,12 @@ def handle_message(message):
 
         bot.edit_message_text(chat_id=chat_id, message_id=processing_msg.message_id, text="✅ Код готов! Отправляю на склад (GitHub)... 📦")
 
-        # 2. Создаем репозиторий на GitHub
         github_user = requests.get("https://api.github.com/user", headers={"Authorization": f"token {GITHUB_TOKEN}"}).json()["login"]
         repo_name = f"bot-site-{random.choice(string.ascii_lowercase)}{random.randint(1000,9999)}"
-        
         requests.post("https://api.github.com/user/repos", 
                       headers={"Authorization": f"token {GITHUB_TOKEN}"}, 
                       json={"name": repo_name, "auto_init": True})
         
-        # 3. Загружаем файл
         encoded_content = base64.b64encode(html_code.encode('utf-8')).decode('utf-8')
         file_url = f"https://api.github.com/repos/{github_user}/{repo_name}/contents/index.html"
         requests.put(file_url, headers={"Authorization": f"token {GITHUB_TOKEN}"}, 
@@ -86,21 +81,40 @@ def handle_message(message):
         
         bot.edit_message_text(chat_id=chat_id, message_id=processing_msg.message_id, text="✅ Загружено! Запускаю витрину (Vercel)... 🚀")
 
-        # 4. Формируем ссылку для деплоя
         vercel_import_url = f"https://vercel.com/new/clone?repository-url=https://github.com/{github_user}/{repo_name}"
-        
         final_text = (
             f"🎉 *САЙТ ГОТОВ!*\n\n"
-            f"🔗 *Ссылка на код:* https://github.com/{github_user}/{repo_name}\n\n"
+            f"🔗 *Код:* https://github.com/{github_user}/{repo_name}\n\n"
             f"🚀 *ПОСЛЕДНИЙ ШАГ (1 клик):*\n"
-            f"Нажми на эту ссылку, затем 'Import' и 'Deploy':\n"
+            f"Нажми, затем 'Import' и 'Deploy':\n"
             f"{vercel_import_url}\n\n"
-            f"Через 30 секунд твой сайт будет в интернете! Без базара! 🔥"
+            f"Через 30 секунд твой сайт в интернете! Без базара! 🔥"
         )
         bot.edit_message_text(chat_id=chat_id, message_id=processing_msg.message_id, text=final_text, parse_mode="Markdown")
 
     except Exception as e:
-        bot.edit_message_text(chat_id=chat_id, message_id=processing_msg.message_id, text=f"❌ Ошибка: {e}\nПроверь настройки Groq API.")
+        bot.edit_message_text(chat_id=chat_id, message_id=processing_msg.message_id, text=f"❌ Ошибка: {e}")
 
-print("🤖 Кибер-Прораб бот запущен и ждёт заказов...")
-bot.polling(none_stop=True)
+# 3. Flask-сервер "охранник" для Render Web Service
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Cyber-Prorab bot is alive! 🤖"
+
+@app.route('/ping')
+def ping():
+    return "pong"
+
+def run_bot():
+    print("🤖 Bot polling started...")
+    bot.polling(none_stop=True)
+
+if __name__ == '__main__':
+    # Бот работает в отдельном потоке (фон)
+    bot_thread = threading.Thread(target=run_bot, daemon=True)
+    bot_thread.start()
+    
+    # Flask слушает порт Render (это то, что не даст приложению "умереть")
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host='0.0.0.0', port=port)
