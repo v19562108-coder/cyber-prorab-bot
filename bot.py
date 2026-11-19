@@ -52,7 +52,7 @@ def handle_message(message):
     
     try:
         response = client.chat.completions.create(
-            model="qwen2.5-coder-32b-instruct",
+            model="meta-llama/llama-3.3-70b-versatile",
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": user_request}
