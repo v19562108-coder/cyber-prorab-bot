@@ -12,10 +12,11 @@ load_dotenv()
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 VERCEL_TOKEN = os.getenv("VERCEL_TOKEN")
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
-# 2. Инициализируем бота и Ollama
+# 2. Инициализируем бота и AI (теперь Groq в облаке!)
 bot = telebot.TeleBot(BOT_TOKEN)
-client = OpenAI(base_url="http://localhost:11434/v1", api_key="ollama")
+client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=GROQ_API_KEY)
 
 SYSTEM_PROMPT = """
 Ты — Кибер-Прораб. Делаешь крутые сайты. Используй мемы (шаурма, голуби, маршрутки).
@@ -50,9 +51,9 @@ def handle_message(message):
     processing_msg = bot.send_message(chat_id, "⏳ Думаю, пишу код, не будь как НПС... Подожди пару секунд! 🛠️")
     
     try:
-        # 1. Генерируем код через Ollama
+        # 1. Генерируем код через Groq (облачный мозг 32b)
         response = client.chat.completions.create(
-            model="qwen2.5-coder:7b",
+            model="qwen2.5-coder-32b-instruct",
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": user_request}
@@ -99,7 +100,7 @@ def handle_message(message):
         bot.edit_message_text(chat_id=chat_id, message_id=processing_msg.message_id, text=final_text, parse_mode="Markdown")
 
     except Exception as e:
-        bot.edit_message_text(chat_id=chat_id, message_id=processing_msg.message_id, text=f"❌ Ошибка: {e}\nПроверь, запущена ли Ollama (лама в трее).")
+        bot.edit_message_text(chat_id=chat_id, message_id=processing_msg.message_id, text=f"❌ Ошибка: {e}\nПроверь настройки Groq API.")
 
 print("🤖 Кибер-Прораб бот запущен и ждёт заказов...")
 bot.polling(none_stop=True)
