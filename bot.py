@@ -71,8 +71,8 @@ SYSTEM_PROMPT = """
             <p>[ОПИСАНИЕ 4]</p>
             <p><strong>[ЦЕНА 4]</strong></p>
         </div>
-    </main>
-    <button id="petBtn" style="position:fixed; bottom:20px; right:20px; left:auto; top:auto; padding:15px 30px; font-size:1.2em; border:none; border-radius:50px; background:#ff4757; color:white; cursor:pointer; z-index:9999;">Погладить 🐉</button>
+</main>
+<button id="petBtn" style="position:fixed; bottom:20px; right:20px; left:auto; top:auto; padding:15px 30px; font-size:1.2em; border:none; border-radius:50px; background:#ff4757; color:white; cursor:pointer; z-index:9999;">Погладить 🐉</button>
 <script>
 const btn = document.getElementById('petBtn');
 // Устанавливаем начальные координаты явно через JS, чтобы CSS не конфликтовал
