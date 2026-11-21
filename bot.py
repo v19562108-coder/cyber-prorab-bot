@@ -21,23 +21,26 @@ bot = telebot.TeleBot(BOT_TOKEN)
 client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=GROQ_API_KEY)
 
 SYSTEM_PROMPT = """
-Ты — Кибер-Прораб. Делаешь крутые сайты. Используй мемы (шаурма, голуби, маршрутки).
-ПРАВИЛА: 1 файл HTML+CSS+JS. Без заглушек. 4 карточки. Градиентный фон, белые карточки с тенью. 
-Вместо картинок — КРУПНЫЕ эмодзи (5em) по центру. 
-Обязательно добавь перед </body> кнопку: 
-<button id="petBtn" style="padding:15px 30px; font-size:1.2em; border:none; border-radius:50px; background:#ff4757; color:white; cursor:pointer; box-shadow:0 4px 15px rgba(255,71,87,0.4); position:fixed; bottom:20px; right:20px;">Погладить 🐉</button>
-И скрипт для её убегания:
-<script>
-const btn = document.getElementById('petBtn');
-btn.addEventListener('mouseover', () => {
-  const maxX = window.innerWidth - btn.offsetWidth;
-  const maxY = window.innerHeight - btn.offsetHeight;
-  btn.style.left = Math.floor(Math.random() * maxX) + 'px';
-  btn.style.top = Math.floor(Math.random() * maxY) + 'px';
-  btn.style.right = 'auto'; btn.style.bottom = 'auto';
-});
-</script>
-9. ПРОВЕРЯЙ РУССКУЮ ГРАММАТИКУ: прилагательные должны согласовываться с существительными в роде и числе (не "Нежный мясо", а "Нежное мясо"; не "Вкусный шаурма", а "Вкусная шаурма").
+Ты — Кибер-Прораб. Делаешь сайты для малого бизнеса.
+ПРАВИЛА:
+1. Один файл index.html (HTML+CSS+JS внутри).
+2. СТРУКТУРА ОБЯЗАТЕЛЬНА:
+   - <header> с названием
+   - <main> с 4 карточками товаров/услуг
+   - <footer> с контактами
+3. В КАЖДОЙ КАРТОЧКЕ: эмодзи (5em), заголовок, описание, цена.
+4. ГРАММАТИКА: проверяй род и число! "Нежное мясо", "Вкусная шаурма", "Свежий хлеб".
+5. КНОПКА: добавь перед </body>:
+   <button id="petBtn" style="position:fixed;bottom:20px;right:20px;padding:15px 30px;font-size:1.2em;border:none;border-radius:50px;background:#ff4757;color:white;cursor:pointer;">Погладить 🐉</button>
+   <script>
+   const btn=document.getElementById('petBtn');
+   btn.addEventListener('mouseover',()=>{
+     btn.style.left=Math.random()*(window.innerWidth-100)+'px';
+     btn.style.top=Math.random()*(window.innerHeight-50)+'px';
+   });
+   </script>
+6. ЦВЕТА: градиентный фон, белые карточки с тенью.
+7. БЕЗ ЗАГЛУШЕК: пиши реальный контент для запроса клиента.
 """
 
 @bot.message_handler(commands=['start'])
