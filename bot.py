@@ -21,79 +21,35 @@ bot = telebot.TeleBot(BOT_TOKEN)
 client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=GROQ_API_KEY)
 
 SYSTEM_PROMPT = """
-Ты — Кибер-Прораб. Твоя задача — создать ПОЛНЫЙ одностраничный сайт (index.html).
-КРИТИЧЕСКИ ВАЖНО: Ты ОБЯЗАН写出 ВСЮ HTML-структуру внутри <body>. Не пиши только CSS!
+Ты — Кибер-Прораб. Создай ОДИН файл index.html (HTML+CSS+JS).
+ВАЖНО: Уложись в 1000 токенов! Пиши компактно, без лишних пробелов.
 
-ОБЯЗАТЕЛЬНАЯ СТРУКТУРА (скопируй и заполни):
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>[НАЗВАНИЕ]</title>
-    <style>
-        /* ВСТАВЬ СЮДА ВСЕ СТИЛИ */
-        body { font-family: sans-serif; background: #f4eada; color: #2b1d12; margin: 0; padding: 20px; }
-        .card { background: white; border-radius: 15px; padding: 20px; margin: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
-        .emoji { font-size: 4em; display: block; }
-        #petBtn { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: #d8c6ac; border: none; font-size: 30px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-    </style>
-</head>
-<body>
-    <header style="text-align:center; padding: 40px 0;">
-        <h1>[ЗАГОЛОВОК САЙТА]</h1>
-        <p>[СЛОГАН]</p>
-    </header>
-    
-    <main style="display:flex; flex-wrap:wrap; justify-content:center; max-width:1000px; margin:0 auto;">
-        <!-- КАРТОЧКА 1 -->
-        <div class="card">
-            <span class="emoji">[ЭМОДЗИ 1]</span>
-            <h3>[НАЗВАНИЕ 1]</h3>
-            <p>[ОПИСАНИЕ 1]</p>
-            <strong>[ЦЕНА 1]</strong>
-        </div>
-        <!-- КАРТОЧКА 2 -->
-        <div class="card">
-            <span class="emoji">[ЭМОДЗИ 2]</span>
-            <h3>[НАЗВАНИЕ 2]</h3>
-            <p>[ОПИСАНИЕ 2]</p>
-            <strong>[ЦЕНА 2]</strong>
-        </div>
-        <!-- КАРТОЧКА 3 -->
-        <div class="card">
-            <span class="emoji">[ЭМОДЗИ 3]</span>
-            <h3>[НАЗВАНИЕ 3]</h3>
-            <p>[ОПИСАНИЕ 3]</p>
-            <strong>[ЦЕНА 3]</strong>
-        </div>
-    </main>
-
-    <footer style="text-align:center; margin-top: 50px; padding: 20px; color: #666;">
-        <h3>Контакты</h3>
-        <p>📍 [АДРЕС]</p>
-        <p>📞 [ТЕЛЕФОН]</p>
-        <p>✉️ [EMAIL]</p>
-        <p>🕒 [ЧАСЫ РАБОТЫ]</p>
-    </footer>
-
-    <button id="petBtn">☕</button>
-    <script>
-        const btn = document.getElementById('petBtn');
-        btn.addEventListener('mouseover', () => {
-            btn.style.left = Math.random() * (window.innerWidth - 80) + 'px';
-            btn.style.top = Math.random() * (window.innerHeight - 80) + 'px';
-        });
-    </script>
-</body>
-</html>
+СТРУКТУРА (заполни данными клиента):
+<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>[TITLE]</title>
+<style>
+body{font-family:sans-serif;background:#f4eada;color:#2b1d12;margin:0;padding:20px}
+.card{background:#fff;border-radius:12px;padding:15px;margin:10px;box-shadow:0 2px 8px rgba(0,0,0,.1);text-align:center}
+.emoji{font-size:3em;display:block}
+#petBtn{position:fixed;bottom:20px;right:20px;width:50px;height:50px;border-radius:50%;background:#d8c6ac;border:none;font-size:24px;cursor:pointer}
+</style></head><body>
+<header style="text-align:center;padding:30px 0"><h1>[H1]</h1><p>[SLOGAN]</p></header>
+<main style="display:flex;flex-wrap:wrap;justify-content:center;max-width:900px;margin:0 auto">
+<div class="card"><span class="emoji">[E1]</span><h3>[N1]</h3><p>[D1]</p><b>[P1]</b></div>
+<div class="card"><span class="emoji">[E2]</span><h3>[N2]</h3><p>[D2]</p><b>[P2]</b></div>
+<div class="card"><span class="emoji">[E3]</span><h3>[N3]</h3><p>[D3]</p><b>[P3]</b></div>
+</main>
+<footer style="text-align:center;margin-top:40px;color:#666">
+<h3>Контакты</h3><p>📍 [ADDR]</p><p>📞 [TEL]</p><p>✉️ [EMAIL]</p><p>🕒 [HOURS]</p>
+</footer>
+<button id="petBtn">☕</button>
+<script>const b=document.getElementById('petBtn');b.onmouseover=()=>{b.style.left=Math.random()*(innerWidth-60)+'px';b.style.top=Math.random()*(innerHeight-60)+'px'}</script>
+</body></html>
 
 ПРАВИЛА:
-1. Замени все [СКОБКИ] на реальный контент из запроса клиента.
-2. ГРАММАТИКА: "Нежное мясо", "Вкусная шаурма", "Свежий кофе".
-3. НЕ удаляй теги <body>, <main>, <footer>!
-4. Если клиент просит кнопку в виде чашки — оставь эмодзи ☕ внутри <button>.
+1. Замени [СКОБКИ] на контент клиента.
+2. Грамматика: "Нежное мясо", "Вкусная шаурма".
+3. Не удаляй теги! Пиши компактно.
 """
-
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     bot.reply_to(message, "🤖 *Кибер-Прораб на связи!* \n\nНапиши мне идею сайта (например: 'сайт для выгула драконов' или 'продажа воздуха'), и я сделаю его за 2 минуты! 🔥")
