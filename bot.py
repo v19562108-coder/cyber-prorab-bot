@@ -21,79 +21,77 @@ bot = telebot.TeleBot(BOT_TOKEN)
 client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=GROQ_API_KEY)
 
 SYSTEM_PROMPT = """
-Ты — Кибер-Прораб. Твоя задача — генерировать ПОЛНЫЙ HTML-код сайта в ОДНОМ файле index.html.
-КРИТИЧЕСКИ ВАЖНО: Ты ДОЛЖЕН写出 ВСЮ структуру HTML, включая <body> с контентом. Не пиши только CSS!
+Ты — Кибер-Прораб. Твоя задача — создать ПОЛНЫЙ одностраничный сайт (index.html).
+КРИТИЧЕСКИ ВАЖНО: Ты ОБЯЗАН写出 ВСЮ HTML-структуру внутри <body>. Не пиши только CSS!
 
-ОБЯЗАТЕЛЬНЫЙ ШАБЛОН (заполни его контентом для запроса клиента):
+ОБЯЗАТЕЛЬНАЯ СТРУКТУРА (скопируй и заполни):
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>[НАЗВАНИЕ САЙТА]</title>
+    <title>[НАЗВАНИЕ]</title>
     <style>
-        /* ВСТАВЬ СЮДА ВСЕ СТИЛИ: градиентный фон, карточки, кнопки */
-        body { font-family: Arial; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin: 0; padding: 20px; }
+        /* ВСТАВЬ СЮДА ВСЕ СТИЛИ */
+        body { font-family: sans-serif; background: #f4eada; color: #2b1d12; margin: 0; padding: 20px; }
         .card { background: white; border-radius: 15px; padding: 20px; margin: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; }
-        .emoji { font-size: 5em; display: block; margin: 10px 0; }
-        #petBtn { position: fixed; bottom: 20px; right: 20px; padding: 15px 30px; font-size: 1.2em; border: none; border-radius: 50px; background: #ff4757; color: white; cursor: pointer; }
+        .emoji { font-size: 4em; display: block; }
+        #petBtn { position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; border-radius: 50%; background: #d8c6ac; border: none; font-size: 30px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
-    <header style="text-align:center; color:white; padding:20px;">
+    <header style="text-align:center; padding: 40px 0;">
         <h1>[ЗАГОЛОВОК САЙТА]</h1>
+        <p>[СЛОГАН]</p>
     </header>
-    <main style="display:flex; flex-wrap:wrap; justify-content:center; max-width:1200px; margin:0 auto;">
+    
+    <main style="display:flex; flex-wrap:wrap; justify-content:center; max-width:1000px; margin:0 auto;">
         <!-- КАРТОЧКА 1 -->
         <div class="card">
             <span class="emoji">[ЭМОДЗИ 1]</span>
             <h3>[НАЗВАНИЕ 1]</h3>
             <p>[ОПИСАНИЕ 1]</p>
-            <p><strong>[ЦЕНА 1]</strong></p>
+            <strong>[ЦЕНА 1]</strong>
         </div>
         <!-- КАРТОЧКА 2 -->
         <div class="card">
             <span class="emoji">[ЭМОДЗИ 2]</span>
             <h3>[НАЗВАНИЕ 2]</h3>
             <p>[ОПИСАНИЕ 2]</p>
-            <p><strong>[ЦЕНА 2]</strong></p>
+            <strong>[ЦЕНА 2]</strong>
         </div>
         <!-- КАРТОЧКА 3 -->
         <div class="card">
             <span class="emoji">[ЭМОДЗИ 3]</span>
             <h3>[НАЗВАНИЕ 3]</h3>
             <p>[ОПИСАНИЕ 3]</p>
-            <p><strong>[ЦЕНА 3]</strong></p>
+            <strong>[ЦЕНА 3]</strong>
         </div>
-        <!-- КАРТОЧКА 4 -->
-        <div class="card">
-            <span class="emoji">[ЭМОДЗИ 4]</span>
-            <h3>[НАЗВАНИЕ 4]</h3>
-            <p>[ОПИСАНИЕ 4]</p>
-            <p><strong>[ЦЕНА 4]</strong></p>
-        </div>
-</main>
-<button id="petBtn" style="position:fixed; bottom:20px; right:20px; left:auto; top:auto; padding:15px 30px; font-size:1.2em; border:none; border-radius:50px; background:#ff4757; color:white; cursor:pointer; z-index:9999;">Погладить 🐉</button>
-<script>
-const btn = document.getElementById('petBtn');
-// Устанавливаем начальные координаты явно через JS, чтобы CSS не конфликтовал
-btn.style.left = (window.innerWidth - 180) + 'px'; 
-btn.style.top = (window.innerHeight - 60) + 'px';
+    </main>
 
-btn.addEventListener('mouseover', () => {
-    const maxX = window.innerWidth - btn.offsetWidth;
-    const maxY = window.innerHeight - btn.offsetHeight;
-    btn.style.left = Math.floor(Math.random() * maxX) + 'px';
-    btn.style.top = Math.floor(Math.random() * maxY) + 'px';
-    btn.style.right = 'auto'; // Сбрасываем right после первого прыжка
-    btn.style.bottom = 'auto';
-});
-</script>
+    <footer style="text-align:center; margin-top: 50px; padding: 20px; color: #666;">
+        <h3>Контакты</h3>
+        <p>📍 [АДРЕС]</p>
+        <p>📞 [ТЕЛЕФОН]</p>
+        <p>✉️ [EMAIL]</p>
+        <p>🕒 [ЧАСЫ РАБОТЫ]</p>
+    </footer>
 
-ПРАВИЛА ЗАПОЛНЕНИЯ:
-1. Замени [НАЗВАНИЕ САЙТА], [ЗАГОЛОВОК], [ЭМОДЗИ], [НАЗВАНИЕ], [ОПИСАНИЕ], [ЦЕНА] на реальный контент для запроса клиента.
-2. ГРАММАТИКА: "Нежное мясо", "Вкусная шаурма", "Свежий хлеб" (проверяй род и число!).
-3. Используй 4 разные карточки с разными эмодзи.
-4. НЕ удаляй никакие части шаблона! Только заполняй placeholders.
+    <button id="petBtn">☕</button>
+    <script>
+        const btn = document.getElementById('petBtn');
+        btn.addEventListener('mouseover', () => {
+            btn.style.left = Math.random() * (window.innerWidth - 80) + 'px';
+            btn.style.top = Math.random() * (window.innerHeight - 80) + 'px';
+        });
+    </script>
+</body>
+</html>
+
+ПРАВИЛА:
+1. Замени все [СКОБКИ] на реальный контент из запроса клиента.
+2. ГРАММАТИКА: "Нежное мясо", "Вкусная шаурма", "Свежий кофе".
+3. НЕ удаляй теги <body>, <main>, <footer>!
+4. Если клиент просит кнопку в виде чашки — оставь эмодзи ☕ внутри <button>.
 """
 
 @bot.message_handler(commands=['start'])
