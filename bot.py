@@ -72,16 +72,22 @@ SYSTEM_PROMPT = """
             <p><strong>[ЦЕНА 4]</strong></p>
         </div>
     </main>
-    <button id="petBtn">Погладить 🐉</button>
-    <script>
-        const btn = document.getElementById('petBtn');
-        btn.addEventListener('mouseover', () => {
-            btn.style.left = Math.random() * (window.innerWidth - 100) + 'px';
-            btn.style.top = Math.random() * (window.innerHeight - 50) + 'px';
-        });
-    </script>
-</body>
-</html>
+    <button id="petBtn" style="position:fixed; bottom:20px; right:20px; left:auto; top:auto; padding:15px 30px; font-size:1.2em; border:none; border-radius:50px; background:#ff4757; color:white; cursor:pointer; z-index:9999;">Погладить 🐉</button>
+<script>
+const btn = document.getElementById('petBtn');
+// Устанавливаем начальные координаты явно через JS, чтобы CSS не конфликтовал
+btn.style.left = (window.innerWidth - 180) + 'px'; 
+btn.style.top = (window.innerHeight - 60) + 'px';
+
+btn.addEventListener('mouseover', () => {
+    const maxX = window.innerWidth - btn.offsetWidth;
+    const maxY = window.innerHeight - btn.offsetHeight;
+    btn.style.left = Math.floor(Math.random() * maxX) + 'px';
+    btn.style.top = Math.floor(Math.random() * maxY) + 'px';
+    btn.style.right = 'auto'; // Сбрасываем right после первого прыжка
+    btn.style.bottom = 'auto';
+});
+</script>
 
 ПРАВИЛА ЗАПОЛНЕНИЯ:
 1. Замени [НАЗВАНИЕ САЙТА], [ЗАГОЛОВОК], [ЭМОДЗИ], [НАЗВАНИЕ], [ОПИСАНИЕ], [ЦЕНА] на реальный контент для запроса клиента.
