@@ -101,14 +101,15 @@ def handle_message(message):
         
         bot.edit_message_text(chat_id=chat_id, message_id=processing_msg.message_id, text="✅ Загружено! Запускаю витрину (Vercel)... 🚀")
 
-        vercel_import_url = f"https://vercel.com/new/clone?repository-url=https://github.com/{github_user}/{repo_name}"
+        github_pages_url = f"https://{github_user}.github.io/{repo_name}/"
         final_text = (
             f"🎉 *САЙТ ГОТОВ!*\n\n"
             f"🔗 *Код:* https://github.com/{github_user}/{repo_name}\n\n"
-            f"🚀 *ПОСЛЕДНИЙ ШАГ (1 клик):*\n"
-            f"Нажми, затем 'Import' и 'Deploy':\n"
-            f"{vercel_import_url}\n\n"
-            f"Через 30 секунд твой сайт в интернете! Без базара! 🔥"
+            f"🚀 *ПОСЛЕДНИЙ ШАГ (без верификации!)*:\n"
+            f"1. Открой репо: https://github.com/{github_user}/{repo_name}\n"
+            f"2. Settings → Pages → Source: Deploy from a branch → main → / (root) → Save\n"
+            f"3. Через 1-2 мин сайт будет тут:\n{github_pages_url}\n\n"
+            f"Без Vercel, без кодов из почты, без лимитов. Чисто и без базара! 🔥"
         )
         bot.edit_message_text(chat_id=chat_id, message_id=processing_msg.message_id, text=final_text, parse_mode="Markdown")
 
