@@ -42,11 +42,11 @@ body{font-family:sans-serif;background:#f4eada;color:#2b1d12;margin:0;padding:20
 .card img{width:100%;height:180px;object-fit:cover;border-radius:10px}
 #petBtn{position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;background:#ff4757;border:none;font-size:28px;cursor:pointer}
 </style></head><body>
-<div class="hero"><h1>[H1]</h1><p>[SLOGAN]</p><img src="https://loremflickr.com/800/400/[HERO]"></div>
+<div class="hero"><h1>[H1]</h1><p>[SLOGAN]</p><img src="https://picsum.photos/seed/[HERO]/800/400"></div>
 <div class="cards">
-<div class="card"><img src="https://loremflickr.com/400/300/[K1]"><h3>[N1]</h3><p>[D1 в стиле Кибер-Прораба!]</p><b>[P1]</b></div>
-<div class="card"><img src="https://loremflickr.com/400/300/[K2]"><h3>[N2]</h3><p>[D2 в стиле Кибер-Прораба!]</p><b>[P2]</b></div>
-<div class="card"><img src="https://loremflickr.com/400/300/[K3]"><h3>[N3]</h3><p>[D3 в стиле Кибер-Прораба!]</p><b>[P3]</b></div>
+<div class="card"><img src="https://picsum.photos/seed/[K1]/400/300"><h3>[N1]</h3><p>[D1 в стиле Кибер-Прораба!]</p><b>[P1]</b></div>
+<div class="card"><img src="https://picsum.photos/seed/[K2]/400/300"><h3>[N2]</h3><p>[D2 в стиле Кибер-Прораба!]</p><b>[P2]</b></div>
+<div class="card"><img src="https://picsum.photos/seed/[K3]/400/300"><h3>[N3]</h3><p>[D3 в стиле Кибер-Прораба!]</p><b>[P3]</b></div>
 </div>
 <footer style="text-align:center;margin-top:40px;padding:20px;color:#666">
 <h3>📞 Контакты</h3><p>📍 [ADDR]</p><p>📱 [TEL]</p><p>✉️ [EMAIL]</p><p>🕒 [HOURS]</p>
