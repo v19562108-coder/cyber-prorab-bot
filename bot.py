@@ -5,7 +5,7 @@ import string
 import threading
 import requests
 import telebot
-from flask import Flask
+from flask import Flask jsonify
 from openai import OpenAI
 from dotenv import load_dotenv
 
@@ -15,7 +15,7 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 VERCEL_TOKEN = os.getenv("VERCEL_TOKEN")
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
-
+ADMIN_CHAT_ID = 7564412121
 # 2. Инициализируем бота и AI (Groq в облаке)
 bot = telebot.TeleBot(BOT_TOKEN)
 client = OpenAI(base_url="https://api.groq.com/openai/v1", api_key=GROQ_API_KEY)
@@ -24,22 +24,27 @@ SYSTEM_PROMPT = """
 Ты — Кибер-Прораб 🤖🔨. Дерзкий, с мемами, сленг ("имба", "пушка", "без базара", "топ"). Код всегда рабочий.
 
 ПРАВИЛА (СТРОГО):
-1. Один файл index.html. Уложись в 800 токенов, пиши компактно.
+1. Один файл index.html. Уложись в 900 токенов, пиши компактно.
 2. ГРАММАТИКА: "Нежное мясо", "Вкусная шаурма" — проверяй род и число.
 3. ВИЗУАЛ: вместо фото используй БОЛЬШОЙ ЭМОДЗИ на градиентном фоне (см. шаблон .visual). Никаких внешних картинок!
 4. ОПИСАНИЯ: в твоём стиле! "Нежная пена, двойной эспрессо — имба для утра, без базара! ☕"
 5. ЗАПРЕЩЕНО: кастомные курсоры, дождь из зёрен, предзагрузчики, сложная навигация, внешние фото-сервисы.
-6. ОБЯЗАТЕЛЬНО: напиши ПОЛНЫЙ <body> с контентом!
+6. ОБЯЗАТЕЛЬНО: напиши ПОЛНЫЙ <body> с контентом + ФОРМУ ЗАЯВКИ!
 
 ШАБЛОН (заполни, не удаляй теги!):
 <!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>[TITLE]</title>
 <style>
 body{font-family:sans-serif;background:#f4eada;color:#2b1d12;margin:0;padding:20px}
 .hero{text-align:center;padding:40px 20px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:20px;margin-bottom:30px}
-.hero .visual{font-size:6em;margin:20px 0}
+.hero .visual{font-size:8em;margin:20px 0}
 .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;max-width:1000px;margin:0 auto}
 .card{background:#fff;border-radius:15px;padding:20px;width:280px;box-shadow:0 4px 15px rgba(0,0,0,.1);text-align:center}
 .visual{height:200px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:8em;background:linear-gradient(135deg,#d8c6ac,#f4eada);margin-bottom:15px}
+.form-section{max-width:500px;margin:40px auto;background:#fff;padding:30px;border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
+.form-section h2{text-align:center;margin-bottom:20px}
+.form-section input,.form-section textarea{width:100%;padding:12px;margin:8px 0;border:2px solid #d8c6ac;border-radius:10px;font-size:16px;box-sizing:border-box}
+.form-section button{width:100%;padding:15px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:10px;font-size:18px;cursor:pointer;font-weight:bold}
+.form-section button:hover{opacity:0.9}
 #petBtn{position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;background:#ff4757;border:none;font-size:28px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.3)}
 </style></head><body>
 <div class="hero"><h1>[H1]</h1><p>[SLOGAN]</p><div class="visual">[ЭМОДЗИ_ТЕМЫ]</div></div>
@@ -47,6 +52,15 @@ body{font-family:sans-serif;background:#f4eada;color:#2b1d12;margin:0;padding:20
 <div class="card"><div class="visual">[E1]</div><h3>[N1]</h3><p>[D1 в стиле Кибер-Прораба!]</p><b>[P1]</b></div>
 <div class="card"><div class="visual">[E2]</div><h3>[N2]</h3><p>[D2 в стиле Кибер-Прораба!]</p><b>[P2]</b></div>
 <div class="card"><div class="visual">[E3]</div><h3>[N3]</h3><p>[D3 в стиле Кибер-Прораба!]</p><b>[P3]</b></div>
+</div>
+<div class="form-section">
+<h2>📩 Оставить заявку</h2>
+<form action="https://cyber-prorab-bot.onrender.com/submit_lead" method="POST">
+<input type="text" name="name" placeholder="Ваше имя" required>
+<input type="tel" name="phone" placeholder="Телефон" required>
+<textarea name="comment" placeholder="Комментарий (необязательно)" rows="3"></textarea>
+<button type="submit">🚀 Отправить заявку</button>
+</form>
 </div>
 <footer style="text-align:center;margin-top:40px;padding:20px;color:#666">
 <h3>📞 Контакты</h3><p>📍 [ADDR]</p><p>📱 [TEL]</p><p>✉️ [EMAIL]</p><p>🕒 [HOURS]</p>
@@ -126,7 +140,34 @@ def home():
 @app.route('/ping')
 def ping():
     return "pong"
-
+        # 4. Endpoint для приёма заявок с сайтов
+        @app.route('/submit_lead', methods=['POST'])
+        def submit_lead():
+            try:
+                name = request.form.get('name', 'Не указано')
+                phone = request.form.get('phone', 'Не указано')
+                comment = request.form.get('comment', '')
+                
+                # Формируем красивое сообщение
+                message = (
+                    f"📩 *НОВАЯ ЗАЯВКА!*\n\n"
+                    f"👤 *Имя:* {name}\n"
+                    f"📞 *Телефон:* {phone}\n"
+                )
+                if comment:
+                    message += f"💬 *Комментарий:* {comment}\n"
+                
+                # Отправляем в Telegram
+                telegram_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
+                requests.post(telegram_url, json={
+                    'chat_id': ADMIN_CHAT_ID,
+                    'text': message,
+                    'parse_mode': 'Markdown'
+                })
+                
+                return jsonify({'success': True, 'message': 'Заявка отправлена!'}), 200
+            except Exception as e:
+                return jsonify({'success': False, 'error': str(e)}), 500
 def run_bot():
     print("🤖 Bot polling started...")
     bot.polling(none_stop=True)
