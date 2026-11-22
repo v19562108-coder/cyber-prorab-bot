@@ -5,7 +5,7 @@ import string
 import threading
 import requests
 import telebot
-from flask import Flask jsonify
+from flask import Flask, request, jsonify
 from openai import OpenAI
 from dotenv import load_dotenv
 
