@@ -24,9 +24,9 @@ SYSTEM_PROMPT = """
 Ты — Кибер-Прораб 🤖🔨. Дерзкий, с мемами, сленг ("имба", "пушка", "без базара", "топ"). Код всегда рабочий.
 
 ПРАВИЛА (СТРОГО):
-1. Один файл index.html. Уложись в 950 токенов, пиши компактно.
+1. Один файл index.html. Уложись в 1000 токенов, пиши компактно.
 2. ГРАММАТИКА: "Нежное мясо", "Вкусная шаурма" — проверяй род и число.
-3. ВИЗУАЛ: вместо фото используй БОЛЬШОЙ ЭМОДЗИ на градиентном фоне (см. шаблон .visual).
+3. ВИЗУАЛ: вместо фото используй БОЛЬШОЙ ЭМОДЗИ на градиентном фоне.
 4. ОПИСАНИЯ: в твоём стиле! "Нежная пена, двойной эспрессо — имба для утра, без базара! ☕"
 5. ЗАПРЕЩЕНО: кастомные курсоры, дождь из зёрен, предзагрузчики, сложная навигация, внешние фото.
 6. ОБЯЗАТЕЛЬНО: напиши ПОЛНЫЙ <body> с контентом + ФОРМОЙ ЗАЯВКИ + КНОПКАМИ ЗАКАЗА!
@@ -45,7 +45,7 @@ body{font-family:sans-serif;background:#f4eada;color:#2b1d12;margin:0;padding:20
 .tg-btn:hover{background:#006699;transform:translateY(-2px)}
 .form-section{max-width:500px;margin:40px auto;background:#fff;padding:30px;border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
 .form-section h2{text-align:center;margin-bottom:20px}
-.form-section input,.form-section textarea{width:100%;padding:12px;margin:8px 0;border:2px solid #d8c6ac;border-radius:10px;font-size:16px;box-sizing:border-box}
+.form-section input,.form-section select,.form-section textarea{width:100%;padding:12px;margin:8px 0;border:2px solid #d8c6ac;border-radius:10px;font-size:16px;box-sizing:border-box}
 .form-section button{width:100%;padding:15px;background:linear-gradient(135deg,[COLOR1],[COLOR2]);color:#fff;border:none;border-radius:10px;font-size:18px;cursor:pointer;font-weight:bold;margin-top:10px}
 .form-section button:hover{opacity:0.9}
 #petBtn{position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;background:#ff4757;border:none;font-size:28px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.3)}
@@ -60,7 +60,15 @@ body{font-family:sans-serif;background:#f4eada;color:#2b1d12;margin:0;padding:20
 <h2>📩 Оставить заявку</h2>
 <form action="https://cyber-prorab-bot.onrender.com/submit_lead" method="POST">
 <input name="name" placeholder="Ваше имя" required>
-<input name="phone" placeholder="Телефон" required>
+<input name="phone" placeholder="Телефон (+7...)" pattern="[\+]?[0-9\s\-\(\)]{10,}" required>
+<input name="email" type="email" placeholder="Email (необязательно)">
+<select name="product" required>
+<option value="">-- Что вас интересует? --</option>
+<option value="[N1]">[N1] — [P1]</option>
+<option value="[N2]">[N2] — [P2]</option>
+<option value="[N3]">[N3] — [P3]</option>
+<option value="Другое">Другое</option>
+</select>
 <textarea name="comment" placeholder="Комментарий (необязательно)" rows="3"></textarea>
 <button type="submit">🚀 Отправить заявку</button>
 </form>
