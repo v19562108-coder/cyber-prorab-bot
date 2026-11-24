@@ -30,22 +30,23 @@ SYSTEM_PROMPT = """
 4. ОПИСАНИЯ: в твоём стиле! "Нежная пена, двойной эспрессо — имба для утра, без базара! ☕"
 5. ЗАПРЕЩЕНО: кастомные курсоры, дождь из зёрен, предзагрузчики, сложная навигация, внешние фото.
 6. ОБЯЗАТЕЛЬНО: напиши ПОЛНЫЙ <body> с контентом + ФОРМОЙ ЗАЯВКИ + КНОПКАМИ ЗАКАЗА!
+7. ЦВЕТА: подбирай градиент hero-блока под тематику! Кофейня → #8B6F47+#D4A574, драконы → #8B0000+#FFD700, IT → #1a1a2e+#16213e, шаурма → #FF6B35+#F7931E, воздух → #87CEEB+#E0F6FF. Для .visual используй светлый оттенок той же палитры.
 
-ШАБЛОН (заполни, не удаляй теги!):
+ШАБЛОН (замени цвета в .hero и .visual под нишу, не удаляй теги!):
 <!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>[TITLE]</title>
 <style>
 body{font-family:sans-serif;background:#f4eada;color:#2b1d12;margin:0;padding:20px}
-.hero{text-align:center;padding:40px 20px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:20px;margin-bottom:30px}
+.hero{text-align:center;padding:40px 20px;background:linear-gradient(135deg,[COLOR1],[COLOR2]);color:#fff;border-radius:20px;margin-bottom:30px}
 .hero .visual{font-size:8em;margin:20px 0}
 .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;max-width:1000px;margin:0 auto}
 .card{background:#fff;border-radius:15px;padding:20px;width:280px;box-shadow:0 4px 15px rgba(0,0,0,.1);text-align:center;display:flex;flex-direction:column;align-items:center}
-.visual{height:200px;width:100%;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:8em;background:linear-gradient(135deg,#d8c6ac,#f4eada);margin-bottom:15px}
+.visual{height:200px;width:100%;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:8em;background:linear-gradient(135deg,[VCOLOR1],[VCOLOR2]);margin-bottom:15px}
 .tg-btn{display:block;margin-top:15px;padding:12px 20px;background:#0088cc;color:#fff;text-decoration:none;border-radius:8px;font-weight:bold;transition:0.3s;width:100%;box-sizing:border-box;text-align:center}
 .tg-btn:hover{background:#006699;transform:translateY(-2px)}
 .form-section{max-width:500px;margin:40px auto;background:#fff;padding:30px;border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
 .form-section h2{text-align:center;margin-bottom:20px}
 .form-section input,.form-section textarea{width:100%;padding:12px;margin:8px 0;border:2px solid #d8c6ac;border-radius:10px;font-size:16px;box-sizing:border-box}
-.form-section button{width:100%;padding:15px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:10px;font-size:18px;cursor:pointer;font-weight:bold;margin-top:10px}
+.form-section button{width:100%;padding:15px;background:linear-gradient(135deg,[COLOR1],[COLOR2]);color:#fff;border:none;border-radius:10px;font-size:18px;cursor:pointer;font-weight:bold;margin-top:10px}
 .form-section button:hover{opacity:0.9}
 #petBtn{position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;background:#ff4757;border:none;font-size:28px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.3)}
 </style></head><body>
