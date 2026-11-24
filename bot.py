@@ -197,6 +197,27 @@ def submit_lead():
         return jsonify({'success': True, 'message': 'Заявка отправлена!'}), 200
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
+@app.route('/get_photo', methods=['GET'])
+def get_photo():
+    try:
+        query = request.args.get('query', 'coffee')
+        access_key = os.environ.get('UNSPLASH_ACCESS_KEY')
+        
+        if not access_key:
+            return jsonify({'error': 'Key not found'}), 500
+            
+        url = f"https://api.unsplash.com/search/photos?query={query}&client_id={access_key}&per_page=1&orientation=landscape"
+        response = requests.get(url, timeout=3)
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get('results'):
+                img_url = data['results'][0]['urls']['regular']
+                return jsonify({'url': img_url})
+                
+        return jsonify({'error': 'No photo found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 def run_bot():
     print("🤖 Bot polling started...")
     bot.polling(none_stop=True)
