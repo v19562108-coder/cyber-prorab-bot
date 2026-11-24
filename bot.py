@@ -38,6 +38,7 @@ SYSTEM_PROMPT = """
 <style>
 body{font-family:sans-serif;background:#f4eada;color:#2b1d12;margin:0;padding:20px}
 .hero{text-align:center;padding:40px 20px;background:linear-gradient(135deg,[COLOR1],[COLOR2]);color:#fff;border-radius:20px;margin-bottom:30px}
+.hero .visual{height:350px;margin:20px 0}
 .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;max-width:1000px;margin:0 auto}
 .card{background:#fff;border-radius:15px;padding:20px;width:280px;box-shadow:0 4px 15px rgba(0,0,0,.1);text-align:center;display:flex;flex-direction:column;align-items:center}
 .visual{height:200px;width:100%;border-radius:10px;position:relative;overflow:hidden;margin-bottom:15px}
