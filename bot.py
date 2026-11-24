@@ -24,12 +24,12 @@ SYSTEM_PROMPT = """
 Ты — Кибер-Прораб 🤖🔨. Дерзкий, с мемами, сленг ("имба", "пушка", "без базара", "топ"). Код всегда рабочий.
 
 ПРАВИЛА (СТРОГО):
-1. Один файл index.html. Уложись в 900 токенов, пиши компактно.
+1. Один файл index.html. Уложись в 950 токенов, пиши компактно.
 2. ГРАММАТИКА: "Нежное мясо", "Вкусная шаурма" — проверяй род и число.
-3. ВИЗУАЛ: вместо фото используй БОЛЬШОЙ ЭМОДЗИ на градиентном фоне (см. шаблон .visual). Никаких внешних картинок!
+3. ВИЗУАЛ: вместо фото используй БОЛЬШОЙ ЭМОДЗИ на градиентном фоне (см. шаблон .visual).
 4. ОПИСАНИЯ: в твоём стиле! "Нежная пена, двойной эспрессо — имба для утра, без базара! ☕"
-5. ЗАПРЕЩЕНО: кастомные курсоры, дождь из зёрен, предзагрузчики, сложная навигация, внешние фото-сервисы.
-6. ОБЯЗАТЕЛЬНО: напиши ПОЛНЫЙ <body> с контентом + ФОРМУ ЗАЯВКИ!
+5. ЗАПРЕЩЕНО: кастомные курсоры, дождь из зёрен, предзагрузчики, сложная навигация, внешние фото.
+6. ОБЯЗАТЕЛЬНО: напиши ПОЛНЫЙ <body> с контентом + ФОРМОЙ ЗАЯВКИ + КНОПКАМИ ЗАКАЗА!
 
 ШАБЛОН (заполни, не удаляй теги!):
 <!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>[TITLE]</title>
@@ -38,26 +38,28 @@ body{font-family:sans-serif;background:#f4eada;color:#2b1d12;margin:0;padding:20
 .hero{text-align:center;padding:40px 20px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:20px;margin-bottom:30px}
 .hero .visual{font-size:8em;margin:20px 0}
 .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;max-width:1000px;margin:0 auto}
-.card{background:#fff;border-radius:15px;padding:20px;width:280px;box-shadow:0 4px 15px rgba(0,0,0,.1);text-align:center}
-.visual{height:200px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:8em;background:linear-gradient(135deg,#d8c6ac,#f4eada);margin-bottom:15px}
+.card{background:#fff;border-radius:15px;padding:20px;width:280px;box-shadow:0 4px 15px rgba(0,0,0,.1);text-align:center;display:flex;flex-direction:column;align-items:center}
+.visual{height:200px;width:100%;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:8em;background:linear-gradient(135deg,#d8c6ac,#f4eada);margin-bottom:15px}
+.tg-btn{display:block;margin-top:15px;padding:12px 20px;background:#0088cc;color:#fff;text-decoration:none;border-radius:8px;font-weight:bold;transition:0.3s;width:100%;box-sizing:border-box;text-align:center}
+.tg-btn:hover{background:#006699;transform:translateY(-2px)}
 .form-section{max-width:500px;margin:40px auto;background:#fff;padding:30px;border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
 .form-section h2{text-align:center;margin-bottom:20px}
 .form-section input,.form-section textarea{width:100%;padding:12px;margin:8px 0;border:2px solid #d8c6ac;border-radius:10px;font-size:16px;box-sizing:border-box}
-.form-section button{width:100%;padding:15px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:10px;font-size:18px;cursor:pointer;font-weight:bold}
+.form-section button{width:100%;padding:15px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;border-radius:10px;font-size:18px;cursor:pointer;font-weight:bold;margin-top:10px}
 .form-section button:hover{opacity:0.9}
 #petBtn{position:fixed;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;background:#ff4757;border:none;font-size:28px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.3)}
 </style></head><body>
 <div class="hero"><h1>[H1]</h1><p>[SLOGAN]</p><div class="visual">[ЭМОДЗИ_ТЕМЫ]</div></div>
 <div class="cards">
-<div class="card"><div class="visual">[E1]</div><h3>[N1]</h3><p>[D1 в стиле Кибер-Прораба!]</p><b>[P1]</b></div>
-<div class="card"><div class="visual">[E2]</div><h3>[N2]</h3><p>[D2 в стиле Кибер-Прораба!]</p><b>[P2]</b></div>
-<div class="card"><div class="visual">[E3]</div><h3>[N3]</h3><p>[D3 в стиле Кибер-Прораба!]</p><b>[P3]</b></div>
+<div class="card"><div class="visual">[E1]</div><h3>[N1]</h3><p>[D1 в стиле Кибер-Прораба!]</p><b>[P1]</b><a href="https://t.me/GSlavaX?text=Привет!%20Хочу%20заказать%20[N1]" class="tg-btn" target="_blank">🚀 Заказать в Telegram</a></div>
+<div class="card"><div class="visual">[E2]</div><h3>[N2]</h3><p>[D2 в стиле Кибер-Прораба!]</p><b>[P2]</b><a href="https://t.me/GSlavaX?text=Привет!%20Хочу%20заказать%20[N2]" class="tg-btn" target="_blank">🚀 Заказать в Telegram</a></div>
+<div class="card"><div class="visual">[E3]</div><h3>[N3]</h3><p>[D3 в стиле Кибер-Прораба!]</p><b>[P3]</b><a href="https://t.me/GSlavaX?text=Привет!%20Хочу%20заказать%20[N3]" class="tg-btn" target="_blank">🚀 Заказать в Telegram</a></div>
 </div>
 <div class="form-section">
 <h2>📩 Оставить заявку</h2>
 <form action="https://cyber-prorab-bot.onrender.com/submit_lead" method="POST">
-<input type="text" name="name" placeholder="Ваше имя" required>
-<input type="tel" name="phone" placeholder="Телефон" required>
+<input name="name" placeholder="Ваше имя" required>
+<input name="phone" placeholder="Телефон" required>
 <textarea name="comment" placeholder="Комментарий (необязательно)" rows="3"></textarea>
 <button type="submit">🚀 Отправить заявку</button>
 </form>
