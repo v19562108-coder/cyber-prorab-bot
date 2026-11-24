@@ -140,34 +140,28 @@ def home():
 @app.route('/ping')
 def ping():
     return "pong"
-        # 4. Endpoint для приёма заявок с сайтов
-        @app.route('/submit_lead', methods=['POST'])
-        def submit_lead():
-            try:
-                name = request.form.get('name', 'Не указано')
-                phone = request.form.get('phone', 'Не указано')
-                comment = request.form.get('comment', '')
-                
-                # Формируем красивое сообщение
-                message = (
-                    f"📩 *НОВАЯ ЗАЯВКА!*\n\n"
-                    f"👤 *Имя:* {name}\n"
-                    f"📞 *Телефон:* {phone}\n"
-                )
-                if comment:
-                    message += f"💬 *Комментарий:* {comment}\n"
-                
-                # Отправляем в Telegram
-                telegram_url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
-                requests.post(telegram_url, json={
-                    'chat_id': ADMIN_CHAT_ID,
-                    'text': message,
-                    'parse_mode': 'Markdown'
-                })
-                
-                return jsonify({'success': True, 'message': 'Заявка отправлена!'}), 200
-            except Exception as e:
-                return jsonify({'success': False, 'error': str(e)}), 500
+@app.route('/submit_lead', methods=['POST'])
+def submit_lead():
+    try:
+        name = request.form.get('name', 'Не указано')
+        phone = request.form.get('phone', 'Не указано')
+        comment = request.form.get('comment', '')
+        message = (
+            f"📩 *НОВАЯ ЗАЯВКА!*\n\n"
+            f"👤 *Имя:* {name}\n"
+            f"📞 *Телефон:* {phone}\n"
+        )
+        if comment:
+            message += f"💬 *Комментарий:* {comment}\n"
+        telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+        requests.post(telegram_url, json={
+            'chat_id': ADMIN_CHAT_ID,
+            'text': message,
+            'parse_mode': 'Markdown'
+        })
+        return jsonify({'success': True, 'message': 'Заявка отправлена!'}), 200
+    except Exception as e:
+        return jsonify({'success': False, 'error': str(e)}), 500
 def run_bot():
     print("🤖 Bot polling started...")
     bot.polling(none_stop=True)
