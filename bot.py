@@ -29,10 +29,11 @@ SYSTEM_PROMPT = """
 3. ВИЗУАЛ: вместо фото используй БОЛЬШОЙ ЭМОДЗИ на градиентном фоне.
 4. ОПИСАНИЯ: в твоём стиле! "Нежная пена, двойной эспрессо — имба для утра, без базара! ☕"
 5. ЗАПРЕЩЕНО: кастомные курсоры, дождь из зёрен, предзагрузчики, сложная навигация, внешние фото.
-6. ОБЯЗАТЕЛЬНО: напиши ПОЛНЫЙ <body> с контентом + ФОРМОЙ ЗАЯВКИ + КНОПКАМИ ЗАКАЗА + ОТЗЫВАМИ!
-7. ЦВЕТА: подбирай градиент hero-блока под тематику! Кофейня → #8B6F47+#D4A574, драконы → #8B0000+#FFD700, IT → #1a1a2e+#16213e, шаурма → #FF6B35+#F7931E, воздух → #87CEEB+#E0F6FF. Для .visual используй светлый оттенок той же палитры.
+6. ОБЯЗАТЕЛЬНО: напиши ПОЛНЫЙ <body> с контентом + ФОРМОЙ ЗАЯВКИ + КНОПКАМИ + ОТЗЫВАМИ!
+7. ЦВЕТА: подбирай градиент hero-блока под тематику! Кофейня → #8B6F47+#D4A574, драконы → #8B0000+#FFD700, IT → #1a1a2e+#16213e, шаурма → #FF6B35+#F7931E.
+8. АДАПТАЦИЯ КНОПКИ: меняй текст кнопки под нишу! Еда → '🛵 Заказать доставку', Кофейня → '☕ Предзаказ', Услуги → '📅 Записаться'. Ссылка всегда ведет на https://t.me/GSlavaX
 
-ШАБЛОН (замени цвета в .hero и .visual под нишу, не удаляй теги!):
+ШАБЛОН (замени цвета и текст кнопки под нишу, не удаляй теги!):
 <!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><title>[TITLE]</title>
 <style>
 body{font-family:sans-serif;background:#f4eada;color:#2b1d12;margin:0;padding:20px}
@@ -55,9 +56,9 @@ body{font-family:sans-serif;background:#f4eada;color:#2b1d12;margin:0;padding:20
 </style></head><body>
 <div class="hero"><h1>[H1]</h1><p>[SLOGAN]</p><div class="visual">[ЭМОДЗИ_ТЕМЫ]</div></div>
 <div class="cards">
-<div class="card"><div class="visual">[E1]</div><h3>[N1]</h3><p>[D1 в стиле Кибер-Прораба!]</p><b>[P1]</b><a href="https://t.me/GSlavaX?text=Привет!%20Хочу%20заказать%20[N1]" class="tg-btn" target="_blank">🚀 Заказать в Telegram</a></div>
-<div class="card"><div class="visual">[E2]</div><h3>[N2]</h3><p>[D2 в стиле Кибер-Прораба!]</p><b>[P2]</b><a href="https://t.me/GSlavaX?text=Привет!%20Хочу%20заказать%20[N2]" class="tg-btn" target="_blank">🚀 Заказать в Telegram</a></div>
-<div class="card"><div class="visual">[E3]</div><h3>[N3]</h3><p>[D3 в стиле Кибер-Прораба!]</p><b>[P3]</b><a href="https://t.me/GSlavaX?text=Привет!%20Хочу%20заказать%20[N3]" class="tg-btn" target="_blank">🚀 Заказать в Telegram</a></div>
+<div class="card"><div class="visual">[E1]</div><h3>[N1]</h3><p>[D1 в стиле Кибер-Прораба!]</p><b>[P1]</b><a href="https://t.me/GSlavaX?text=Привет!%20Хочу%20[ТЕКСТ_КНОПКИ]%20[N1]" class="tg-btn" target="_blank">[ТЕКСТ_КНОПКИ]</a></div>
+<div class="card"><div class="visual">[E2]</div><h3>[N2]</h3><p>[D2 в стиле Кибер-Прораба!]</p><b>[P2]</b><a href="https://t.me/GSlavaX?text=Привет!%20Хочу%20[ТЕКСТ_КНОПКИ]%20[N2]" class="tg-btn" target="_blank">[ТЕКСТ_КНОПКИ]</a></div>
+<div class="card"><div class="visual">[E3]</div><h3>[N3]</h3><p>[D3 в стиле Кибер-Прораба!]</p><b>[P3]</b><a href="https://t.me/GSlavaX?text=Привет!%20Хочу%20[ТЕКСТ_КНОПКИ]%20[N3]" class="tg-btn" target="_blank">[ТЕКСТ_КНОПКИ]</a></div>
 </div>
 <div class="reviews">
 <h2 style="width:100%;text-align:center">💬 Отзывы наших клиентов</h2>
@@ -71,6 +72,11 @@ body{font-family:sans-serif;background:#f4eada;color:#2b1d12;margin:0;padding:20
 <input name="name" placeholder="Ваше имя" required>
 <input name="phone" placeholder="Телефон (+7...)" pattern="[\+]?[0-9\s\-\(\)]{10,}" required>
 <input name="email" type="email" placeholder="Email (необязательно)">
+<select name="format" required>
+<option value="">-- Формат получения --</option>
+<option value="Самовывоз">🏃 Самовывоз (быстро и без очереди)</option>
+<option value="Доставка">🛵 Доставка (привезём прямо к двери)</option>
+</select>
 <select name="product" required>
 <option value="">-- Что вас интересует? --</option>
 <option value="[N1]">[N1] — [P1]</option>
