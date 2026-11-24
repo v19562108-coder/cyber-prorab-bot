@@ -171,20 +171,29 @@ def submit_lead():
     try:
         name = request.form.get('name', 'Не указано')
         phone = request.form.get('phone', 'Не указано')
+        email = request.form.get('email', 'Не указано')
+        format_type = request.form.get('format', 'Не указано')
+        product = request.form.get('product', 'Не указано')
         comment = request.form.get('comment', '')
+        
         message = (
             f"📩 *НОВАЯ ЗАЯВКА!*\n\n"
             f"👤 *Имя:* {name}\n"
             f"📞 *Телефон:* {phone}\n"
+            f"✉️ *Email:* {email}\n"
+            f"🚚 *Формат:* {format_type}\n"
+            f"🛒 *Товар:* {product}\n"
         )
         if comment:
             message += f"💬 *Комментарий:* {comment}\n"
+        
         telegram_url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
         requests.post(telegram_url, json={
             'chat_id': ADMIN_CHAT_ID,
             'text': message,
             'parse_mode': 'Markdown'
         })
+        
         return jsonify({'success': True, 'message': 'Заявка отправлена!'}), 200
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
