@@ -5,7 +5,7 @@ import string
 import threading
 import requests
 import telebot
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 from openai import OpenAI
 from dotenv import load_dotenv
 
@@ -185,22 +185,19 @@ def get_photo():
     try:
         query = request.args.get('query', 'coffee')
         access_key = os.environ.get('UNSPLASH_ACCESS_KEY')
-        
         if not access_key:
-            return jsonify({'error': 'Key not found'}), 500
-            
-        url = f"https://api.unsplash.com/search/photos?query={query}&client_id={access_key}&per_page=1&orientation=landscape"
-        response = requests.get(url, timeout=3)
-        
-        if response.status_code == 200:
-            data = response.json()
+            return Response('No key', status=500)
+        api_url = f"https://api.unsplash.com/search/photos?query={query}&client_id={access_key}&per_page=1&orientation=landscape"
+        resp = requests.get(api_url, timeout=6)
+        if resp.status_code == 200:
+            data = resp.json()
             if data.get('results'):
                 img_url = data['results'][0]['urls']['regular']
-                return jsonify({'url': img_url})
-                
-        return jsonify({'error': 'No photo found'}), 404
+                img_data = requests.get(img_url, timeout=10)
+                return Response(img_data.content, mimetype='image/jpeg')
+        return Response('Not found', status=404)
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return Response('Error', status=500)
 def run_bot():
     print("🤖 Bot polling started...")
     bot.polling(none_stop=True)
