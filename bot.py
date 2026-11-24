@@ -41,7 +41,7 @@ body{font-family:sans-serif;background:#f4eada;color:#2b1d12;margin:0;padding:20
 .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:20px;max-width:1000px;margin:0 auto}
 .card{background:#fff;border-radius:15px;padding:20px;width:280px;box-shadow:0 4px 15px rgba(0,0,0,.1);text-align:center;display:flex;flex-direction:column;align-items:center}
 .visual{height:200px;width:100%;border-radius:10px;position:relative;overflow:hidden;margin-bottom:15px}
-.visual img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0}
+.visual img{width:100%;height:100%;object-fit:cover;position:absolute;top:0;left:0;z-index:2}
 .visual .fallback{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:8em;background:linear-gradient(135deg,[VCOLOR1],[VCOLOR2]);position:absolute;top:0;left:0}
 .tg-btn{display:block;margin-top:15px;padding:12px 20px;background:#0088cc;color:#fff;text-decoration:none;border-radius:8px;font-weight:bold;width:100%;box-sizing:border-box;text-align:center}
 .tg-btn:hover{background:#006699}
